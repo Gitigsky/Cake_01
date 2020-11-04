@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dangao.dao.Goods.GoodsDao">
+
+    <select id="getGoodsList" resultType="map">
+        select g.id, g.name, g.cover, g.price, t.name typename
+        from recommend r,
+             goods g,
+             type t
+        where type = #{recommendType}
+          and r.goods_id = g.id
+          and g.type_id = t.id
+    </select>
+
+    <select id="getScrollGood" resultType="map">
+        select g.id, g.name, g.cover, g.price
+        from recommend r,
+             goods g
+        where type = 1
+          and r.goods_id = g.id
+    </select>
+
+    <select id="selectGoodsByTypeID" resultType="goods">
+        select * from goods
+        <if test="${typeID>0}">
+            where type_id=${typeID}
+        </if>
+        limit #{pageNumber} , #{pageSize}
+    </select>
+
+
+    <select id="getCountOfGoodsByTypeID" resultType="int">
+        <if test="#{typeID>0}">
+            select count(*) from goods
+        </if>
+    </select>
+
+    <select id="selectGoodsbyRecommend" resultType="goods">
+        select g.id,g.name,g.cover,g.image1,g.image2,g.intro,g.price,g.stock,t.name typename from goods g,type t where
+          <choose>
+              <when test="${type==0}">
+                 g.type_id=t.id
+              </when>
+                <otherwise>
+                    g.id=r.goods_id and g.type_id=t.id and r.type=${type}
+                </otherwise>
+          </choose>
+        order by g.id limit #{pageNumber},#{pageSize}
+    </select>
+
+    <select id="getRecommendCountOfGoodsByTypeID" resultType="int">
+        select count(*) from recommend where type=${type}
+    </select>
+
+    <select id="getGoodsById" resultType="Goods">
+        select g.id,g.name,g.cover,g.image1,g.image2,g.price,g.intro,g.stock,t.id typeid,t.name typename from goods g,type t where g.id = ${id} and g.type_id=t.id
+    </select>
+
+
+    <select id="getSearchCount" resultType="int">
+        select count(*) from goods where name like concat('%',#{keyword},'%');
+    </select>
+
+
+    <select id="selectSearchGoods" resultType="Goods">
+        select * from goods where name like concat('%',#{keyword},'%') limit #{pageNumber},#{pageSize}
+    </select>
+
+   <select id="isRecommend"  resultType="Recommend">
+       select * from recommend where type=${type} and goods_id=#{g.id}
+   </select>
+
+    <insert id="addRecommend">
+        insert into recommend(type,goods_id) values(${id},${type})
+    </insert>
+
+    <delete id="removeRecommend">
+        delete from recommend where type=${type} and goods_id=${id}
+    </delete>
+    
+    <insert id="insert">
+        insert into goods(name,cover,image1,image2,price,intro,stock,type_id)
+         values(#{g.name},#{g.cover},#{g.image1},#{g.image2},#{g.price},#{g.intro},#{g.stock},#{g.type.type_id})
+    </insert>
+
+    <update id="update">
+        update goods set name=#{g.name},cover=#{g.cover},image1=#{g.image1},image2=#{g.image2},price=#{g.price},intro=#{g.intro},stock=#{g.stock},type_id=#{g.type.type_id} where id=#{g.id}
+    </update>
+    
+    <delete id="delete" >
+        delete from goods where id = ${id}
+    </delete>
+</mapper>
