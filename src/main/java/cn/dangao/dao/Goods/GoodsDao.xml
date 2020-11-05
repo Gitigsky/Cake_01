@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.dangao.dao.Goods.GoodsDao">
 
-    <select id="getGoodsList" resultType="map">
+    <select id="getGoodsList" resultType="java.util.HashMap">
         select g.id, g.name, g.cover, g.price, t.name typename
         from recommend r,
              goods g,
@@ -13,7 +13,7 @@
           and g.type_id = t.id
     </select>
 
-    <select id="getScrollGood" resultType="map">
+    <select id="getScrollGood" resultType="java.util.HashMap">
         select g.id, g.name, g.cover, g.price
         from recommend r,
              goods g

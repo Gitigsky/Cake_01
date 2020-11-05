@@ -5,6 +5,7 @@ import cn.dangao.entity.Order;
 import cn.dangao.entity.Page;
 import cn.dangao.entity.Type;
 import cn.dangao.service.GoodsService;
+import cn.dangao.service.TypeService;
 import cn.dangao.service.TypeServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class GoodstController {
     @Resource
     private GoodsService goodsService;
     @Resource
-    private TypeServiceImpl typeService;
+    private TypeService typeService;
     @RequestMapping("/index")
     public String index( Model model) {
         Map<String,Object> ScrollGood= goodsService.getScrollGood();
@@ -34,7 +35,7 @@ public class GoodstController {
 
         List<Map<String,Object>>hotList= goodsService.getGoodsList(2);
         model.addAttribute("hotList",hotList);
-
+        System.out.println(hotList.size()+"个");
         return "index";
     }
 
