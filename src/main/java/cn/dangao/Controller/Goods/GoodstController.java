@@ -10,6 +10,7 @@ import cn.dangao.service.TypeServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -40,24 +41,17 @@ public class GoodstController {
     }
 
     @RequestMapping("/goodsrecommend_list")
-    public String GoodRecommendList(String type, String pageNumber, Model model) {
-        int pageNumber1 = 1;
-        if (pageNumber != null) {
-            try {
-                pageNumber1 = Integer.parseInt(pageNumber);
-            } catch (Exception e) {
+    public String GoodRecommendList(String type, @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber, Model model) {
 
-            }
-        }
-        if (pageNumber1 <= 0)
-            pageNumber1 = 1;
-        Page p = goodsService.getGoodsRecommendPage(Integer.parseInt(type), pageNumber1);
+        if (pageNumber <= 0)
+            pageNumber = 1;
+        Page p = goodsService.getGoodsRecommendPage(Integer.parseInt(type), pageNumber);
 
         if (p.getTotalPage() == 0) {
             p.setTotalPage(1);
             p.setPageNumber(1);
         } else {
-            if (pageNumber1 >= p.getTotalPage() + 1) {
+            if (pageNumber>= p.getTotalPage() + 1) {
                 p = goodsService.getGoodsRecommendPage(Integer.parseInt(type), p.getTotalPage());
             }
         }

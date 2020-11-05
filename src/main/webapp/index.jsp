@@ -84,7 +84,7 @@
             <c:forEach items="${newList}" var="g">
                 <div class="col-md-3 gallery-grid ">
                     <a href="/goods_detail?id=${g.id}">
-                        <img src="${g.cover}" class="img-responsive" alt="${g.name}"/>
+                        <img src="statics/${g.cover}" class="img-responsive" alt="${g.name}"/>
                     </a>
                     <div class="gallery-info">
                         <p>

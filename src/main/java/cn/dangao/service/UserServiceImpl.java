@@ -12,17 +12,17 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
-    private UserDao uDao;
+    private UserDao userDao;
 
     public boolean register(User user) {
         try {
-            if(uDao.equals(user.getUsername())){
+            if(userDao.equals(user.getUsername())){
                 return false;
             }
-            if(uDao.equals(user.getEmail())) {
+            if(userDao.equals(user.getEmail())) {
                 return false;
             }
-            uDao.addUser(user);
+            userDao.addUser(user);
             return true;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     public User login(String ue,String password) {
         User user=null;
         try {
-            user = uDao.selectByUsernamePassword(ue, password);
+            user = userDao.selectByUsernamePassword(ue, password);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         try {
-            user=uDao.selectByEmailPassword(ue, password);
+            user= userDao.selectByEmailPassword(ue, password);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public User selectById(int id) {
         User u=null;
         try {
-            u = uDao.selectById(id);
+            u = userDao.selectById(id);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
     public void updateUserAddress(User user) {
         try {
-            uDao.updateUserAddress(user);
+            userDao.updateUserAddress(user);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
     public void updatePwd(User user) {
         try {
-            uDao.updatePwd(user);
+            userDao.updatePwd(user);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
         int pageSize = 7;
         int totalCount = 0;
         try {
-            totalCount = uDao.selectUserCount();
+            totalCount = userDao.selectUserCount();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         p.SetPageSizeAndTotalCount(pageSize, totalCount);
         List list=null;
         try {
-            list = uDao.selectUserList( pageNumber, pageSize);
+            list = userDao.selectUserList( pageNumber, pageSize);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
     }
     public boolean delete(int id ) {
         try {
-            uDao.delete(id);
+            userDao.delete(id);
             return true;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
