@@ -109,36 +109,20 @@ public class GoodstController {
     }
 
     @RequestMapping("goods_list")
-    public String goods_list(Integer typeid,Integer pageNumber,Model model)
-
+    public String goods_list(@RequestParam(value = "typeid" ,defaultValue = "1") Integer typeid,@RequestParam(value = "pageNumber" ,defaultValue = "1") Integer pageNumber,Model model)
     {
-        int id =0;
-        if(typeid!=null)
-        {
-            id=typeid;
-        }
-        if(pageNumber!=null) {
-            try {
-                pageNumber=1;
-            }
-            catch (Exception e)
-            {
-
-            }
-
-        }
         Type t=null;
-        if(id!=0)
+        if(typeid!=0)
         {
-            t=typeService.selectTypeNameByID(id);
+            t=typeService.selectTypeNameByID(typeid);
         }
         model.addAttribute("t",t);
         //List<Goods> list=goodsService.selectGoodsByTypeID(id,1,8);
         //request.setAttribute("goodsList",list);
         if(pageNumber<=0)
             pageNumber=1;
-        Page p= goodsService.selectPageByTypeID(id,pageNumber);
-
+        Page p= goodsService.selectPageByTypeID(typeid,pageNumber);
+        System.out.println(p.getList().size()+"个");
         if(p.getTotalPage()==0)
         {
             p.setTotalPage(1);
@@ -147,12 +131,12 @@ public class GoodstController {
         else {
             if(pageNumber>=p.getTotalPage()+1)
             {
-                p= goodsService.selectPageByTypeID(id,p.getTotalPage());
+                p= goodsService.selectPageByTypeID(typeid,p.getTotalPage());
             }
         }
 
         model.addAttribute("p",p);
-        model.addAttribute("id",String.valueOf(id));
+        model.addAttribute("id",String.valueOf(typeid));
         return "goods_list";
     }
 
