@@ -6,6 +6,7 @@ import cn.dangao.entity.Page;
 import cn.dangao.entity.Type;
 import cn.dangao.service.GoodsService;
 import cn.dangao.service.TypeService;
+import cn.dangao.service.TypeServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,20 +22,20 @@ import java.util.Map;
 @Controller
 public class GoodstController {
     @Resource
-    private GoodsService gService;
+    private GoodsService goodsService;
     @Resource
-    private TypeService tService;
+    private TypeService typeService;
     @RequestMapping("/index")
     public String index( Model model) {
-        Map<String,Object> ScrollGood=gService.getScrollGood();
+        Map<String,Object> ScrollGood= goodsService.getScrollGood();
         model.addAttribute("scroll",ScrollGood);
 
-        List<Map<String,Object>> newList=gService.getGoodsList(3);
+        List<Map<String,Object>> newList= goodsService.getGoodsList(3);
         model.addAttribute("newList",newList);
 
-        List<Map<String,Object>>hotList=gService.getGoodsList(2);
+        List<Map<String,Object>>hotList= goodsService.getGoodsList(2);
         model.addAttribute("hotList",hotList);
-
+        System.out.println(hotList.size()+"个");
         return "index";
     }
 
@@ -50,14 +51,14 @@ public class GoodstController {
         }
         if (pageNumber1 <= 0)
             pageNumber1 = 1;
-        Page p = gService.getGoodsRecommendPage(Integer.parseInt(type), pageNumber1);
+        Page p = goodsService.getGoodsRecommendPage(Integer.parseInt(type), pageNumber1);
 
         if (p.getTotalPage() == 0) {
             p.setTotalPage(1);
             p.setPageNumber(1);
         } else {
             if (pageNumber1 >= p.getTotalPage() + 1) {
-                p = gService.getGoodsRecommendPage(Integer.parseInt(type), p.getTotalPage());
+                p = goodsService.getGoodsRecommendPage(Integer.parseInt(type), p.getTotalPage());
             }
         }
         model.addAttribute("p", p);
@@ -77,7 +78,7 @@ public class GoodstController {
             o = new Order();
             session.setAttribute("order", o);
         }
-        Goods goods = gService.getGoodsById(goodsid);
+        Goods goods = goodsService.getGoodsById(goodsid);
         if(goods.getStock()>0) {
             o.addGoods(goods);
             return "ok";
@@ -99,7 +100,7 @@ public class GoodstController {
     @RequestMapping("goods_detail")
     public String GoodsDetail(Integer id,Model model)
     {
-        Goods g = gService.getGoodsById(id);
+        Goods g = goodsService.getGoodsById(id);
         model.addAttribute("g", g);
         return "goods_detail";
     }
@@ -135,14 +136,14 @@ public class GoodstController {
         Type t=null;
         if(id!=0)
         {
-            t=tService.selectTypeNameByID(id);
+            t=typeService.selectTypeNameByID(id);
         }
         model.addAttribute("t",t);
-        //List<Goods> list=gService.selectGoodsByTypeID(id,1,8);
+        //List<Goods> list=goodsService.selectGoodsByTypeID(id,1,8);
         //request.setAttribute("goodsList",list);
         if(pageNumber<=0)
             pageNumber=1;
-        Page p=gService.selectPageByTypeID(id,pageNumber);
+        Page p= goodsService.selectPageByTypeID(id,pageNumber);
 
         if(p.getTotalPage()==0)
         {
@@ -152,7 +153,7 @@ public class GoodstController {
         else {
             if(pageNumber>=p.getTotalPage()+1)
             {
-                p=gService.selectPageByTypeID(id,p.getTotalPage());
+                p= goodsService.selectPageByTypeID(id,p.getTotalPage());
             }
         }
 
@@ -178,7 +179,7 @@ public class GoodstController {
         {
             pageNumber2=1;
         }
-        Page p =gService.getSearchGoodsPage(keyword,pageNumber2);
+        Page p = goodsService.getSearchGoodsPage(keyword,pageNumber2);
 
         if(p.getTotalPage()==0)
         {
@@ -188,7 +189,7 @@ public class GoodstController {
         else {
             if(pageNumber2>=p.getTotalPage()+1)
             {
-                p =gService.getSearchGoodsPage(keyword,pageNumber2);
+                p = goodsService.getSearchGoodsPage(keyword,pageNumber2);
             }
         }
         model.addAttribute("p", p);

@@ -1,6 +1,6 @@
 package cn.dangao.Controller.Type;
 import cn.dangao.entity.Type;
-import cn.dangao.service.TypeService;
+import cn.dangao.service.TypeServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class TypeController {
 
     @Resource
-    private TypeService service;
+    private TypeServiceImpl service;
 
     /**
      * 新增
