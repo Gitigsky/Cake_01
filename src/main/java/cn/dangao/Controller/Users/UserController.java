@@ -2,7 +2,7 @@ package cn.dangao.Controller.Users;
 
 
 import cn.dangao.entity.User;
-import cn.dangao.service.UserService;
+import cn.dangao.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserController {
     @Resource
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * 登入界面跳转
