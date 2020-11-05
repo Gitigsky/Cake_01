@@ -1,12 +1,15 @@
 package cn.dangao.Controller.Users;
 
 
+import cn.dangao.entity.Page;
 import cn.dangao.entity.User;
 import cn.dangao.service.UserService;
+import cn.dangao.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -40,10 +43,10 @@ public class UserController {
         User user = userService.login(username, password);
         if(user==null) {
             request.setAttribute("failMsg", "用户名、邮箱或者密码错误，请重新登录！");
-            return "user_login";
+            return "admin/user_login";
         }else {
             session.setAttribute("user", user);
-            return "redirect:/user_center.html";
+            return "/user_center";
         }
     }
 
@@ -67,10 +70,10 @@ public class UserController {
     public String doUserRegister(User user, HttpServletRequest request, Model model){
         if(userService.register(user)) {
             model.addAttribute("msg", "注册成功，请登录！");
-            return "user_login";
+            return "admin/user_login";
         }else {
             model.addAttribute("msg", "用户名或邮箱重复，请重新填写！");
-            return "user_register";
+            return "admin/user_register";
         }
     }
 
@@ -92,17 +95,18 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "enter.html",method = RequestMethod.POST)
-    private String doUserCenter(Model model,String username,String password,HttpSession session){
+    private String doUserCenter(Model model,String username,String password,HttpSession session,String newPwd){
         //修改收货信息
 //        String ue = request.getParameter("ue");
 //        String password = request.getParameter("password");
         User user = userService.login(username, password);
         if(user==null) {
             model.addAttribute("failMsg", "用户名、邮箱或者密码错误，请重新登录！");
-            return "user_login";
+            return "admin/user_login";
         }else {
             session.setAttribute("user", user);
-            return "user_center";
+            fixPwd(session,password,newPwd,model);
+            return "admin/user_center";
         }
     }
 
@@ -114,7 +118,6 @@ public class UserController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "enter.html",method = RequestMethod.POST)
     public String fixPwd(HttpSession session,String newPwd,String password,Model model){
 //        String password = request.getParameter("password");
 //        String newPwd = request.getParameter("newPassword");
@@ -124,10 +127,10 @@ public class UserController {
             u.setPassword(newPwd);
             userService.updatePwd(u);
             model.addAttribute("msg", "修改成功！");
-            return "user_center";
+            return "admin/user_center";
         }else {
             model.addAttribute("failMsg", "修改失败，原密码不正确，你再想想！");
-            return "user_center";
+            return "admin/user_center";
         }
     }
     /**
@@ -138,42 +141,33 @@ public class UserController {
     @RequestMapping(value = "/loginOut.html",method = RequestMethod.GET)
     public String longOut(HttpSession session){
         session.removeAttribute("user");
-        return "index";
+        return "redirect:index";
     }
 
     //后台用户管理
 
-//    @RequestMapping("user_list.html")
-//    public  String user_list(){
-//        int pageNumber = 1;
-//        if(request.getParameter("pageNumber") != null) {
-//            try {
-//                pageNumber=Integer.parseInt(request.getParameter("pageNumber") ) ;
-//            }
-//            catch (Exception e)
-//            {
-//
-//            }
-//
-//        }
-//        if(pageNumber<=0)
-//            pageNumber=1;
-//        Page p = uService.getUserPage(pageNumber);
-//        if(p.getTotalPage()==0)
-//        {
-//            p.setTotalPage(1);
-//            p.setPageNumber(1);
-//        }
-//        else {
-//            if(pageNumber>=p.getTotalPage()+1)
-//            {
-//                p = uService.getUserPage(pageNumber);
-//            }
-//        }
-//        request.setAttribute("p", p);
-//        request.getRequestDispatcher("/statics/admin/user_list.jsp").forward(request, response);
-//        return "";
-//    }
+    @RequestMapping("user_list.html")
+    public  String user_list(@RequestParam(value = "pageNumber",defaultValue = "1",required = false) Integer pageNumber,Model model){
+
+        if(pageNumber<=0){
+            pageNumber=1;
+        }
+
+        Page p = userService.getUserPage(pageNumber);
+        if(p.getTotalPage()==0)
+        {
+            p.setTotalPage(1);
+            p.setPageNumber(1);
+        }
+        else {
+            if(pageNumber>=p.getTotalPage()+1)
+            {
+                p = userService.getUserPage(pageNumber);
+            }
+        }
+        model.addAttribute("p", p);
+        return "admin/user_list";
+    }
 
     /**
      * 调价用户页面跳转

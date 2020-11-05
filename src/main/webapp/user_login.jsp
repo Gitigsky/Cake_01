@@ -39,7 +39,7 @@
 					<div class="alert alert-danger">${failMsg }</div>
 				</c:if>
 
-				<form action="/user_login" method="post">
+				<form action="/login.html" method="post">
 					<div class="register-top-grid">
 						<h3>用户登录</h3>
 						<div class="input">
