@@ -64,11 +64,13 @@ public class TypeController {
     }
 
 
-    @RequestMapping("/admin/type_list.html")
+    @RequestMapping("/type_list")
     public String select(Model model){
         List<Type> types = service.GetAllType();
         model.addAttribute("types",types);
-        return "redirect:/admin/type_list";
+        return "goods_list";
     }
+
+
 
 }

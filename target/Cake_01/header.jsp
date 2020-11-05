@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -19,7 +19,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <h1 class="navbar-brand"><a href="/index">蛋糕店</a></h1>
+                <h1 class="navbar-brand"><a href="/ind6ex">蛋糕店</a></h1>
             </div>
             <!--navbar-header-->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -33,14 +33,12 @@
                                     <div class="col-sm-12">
                                         <h4>商品分类</h4>
                                         <ul class="multi-column-dropdown">
-
-                                            <li><a class="list" href="/goods_list">全部系列</a></li>
-
-                                            <c:forEach items="${typeList}" var="t">
-                                                <li><a class="list" href="/goods_list?typeid=${t.id}">${t.name}</a></li>
+                                            <li><a class="list" href="/type_list">全部系列</a></li>
+                                            <c:forEach items="${types}" var="t">
+                                                <li>
+                                                    <a class="list" href="/goods_list?typeid=${t.id}">${t.name}</a>
+                                                </li>
                                             </c:forEach>
-
-
                                         </ul>
                                     </div>
                                 </div>

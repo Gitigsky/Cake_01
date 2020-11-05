@@ -5,7 +5,7 @@
   Time: 15:03
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -84,7 +84,7 @@
             <c:forEach items="${newList}" var="g">
                 <div class="col-md-3 gallery-grid ">
                     <a href="/goods_detail?id=${g.id}">
-                        <img src="${g.cover}" class="img-responsive" alt="${g.name}"/>
+                        <img src="statics/${g.cover}" class="img-responsive" alt="${g.name}"/>
                     </a>
                     <div class="gallery-info">
                         <p>
