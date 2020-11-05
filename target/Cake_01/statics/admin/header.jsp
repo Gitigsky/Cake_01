@@ -16,7 +16,7 @@
                 <li ><a href="/admin/order_list">订单管理</a></li>
                 <li ><a href="/user_list.html?pageNumber=1">客户管理</a></li>
                 <li ><a href="/admin/goods_list">商品管理</a></li>
-                <li ><a href="/admin/type_list">类目管理</a></li>
+                <li ><a href="/aType_list">类目管理</a></li>
                 <li><a href="/user_logout">退出</a></li>
             </ul>
         </div>

@@ -4,6 +4,7 @@ import cn.dangao.service.TypeServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -18,13 +19,13 @@ public class TypeController {
 
     /**
      * 新增
-     * @param name
+     * @param
      * @return
      */
     @RequestMapping("/admin/type_add")
     public String addType(String name){
         service.insert(new Type(name));
-        return "redirect:/admin/type_list";
+        return "redirect:/aType_list";
     }
 
 
@@ -34,41 +35,41 @@ public class TypeController {
      * @return
      */
     @RequestMapping("/admin/type_delete")
-    @ResponseBody
-    public Map deleteType(Integer id){
-        Map<String,Object> map = new HashMap<>();
-        boolean b = service.delete(id);
-        if (b){
+    public String deleteType(Integer id){
+       // Map<String,Object> map = new HashMap<>();
+        service.delete(id);
+       /* if (b){
             map.put("verify","true");
         }else{
             map.put("verify","false");
         }
-        return map;
+        return map;*/
+        return "redirect:/aType_list";
     }
 
     @RequestMapping("/admin/type_edit")
     public String updateDoType(Integer id,Model model){
         Type type = service.selectTypeNameByID(id);
-        model.addAttribute("type",type);
-        return "type_edit";
+        model.addAttribute("param",type);
+        return "statics/admin/type_edit";
     }
     /**
      * 修改的方法
      * @param type
      * @return
      */
-    @RequestMapping("/admin/doType_edit")
+    @RequestMapping(value = "/admin/doType_edit",method = RequestMethod.POST)
     public String updateType(Type type){
         service.update(type);
-        return "redirect:/admin/type_list";
+        return "redirect:/aType_list";
     }
 
 
-    @RequestMapping("/type_list")
+    @RequestMapping("/aType_list")
     public String select(Model model){
         List<Type> types = service.GetAllType();
         model.addAttribute("types",types);
-        return "goods_list";
+        return "statics/admin/type_list";
     }
 
 

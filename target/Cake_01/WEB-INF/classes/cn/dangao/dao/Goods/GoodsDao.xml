@@ -23,7 +23,7 @@
 
     <select id="selectGoodsByTypeID" resultType="goods">
         select * from goods
-        <if test="${typeID>0}">
+        <if test="#{typeID>0}">
             where type_id=${typeID}
         </if>
         limit #{pageNumber} , #{pageSize}

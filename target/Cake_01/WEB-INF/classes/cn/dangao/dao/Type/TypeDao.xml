@@ -14,12 +14,12 @@
         select * from type where id = #{id}
     </select>
 
-    <insert id="insert" parameterType="Type">
-        insert into type(name) values(#{name})
+    <insert id="insert">
+        insert into type(name) values(#{t.name})
     </insert>
 
-    <update id="update" parameterType="Type">
-        update type set name=#{name} where id = #{id}
+    <update id="update">
+        update type set name=#{t.name} where id = #{t.id}
     </update>
 
     <delete id="delete" parameterType="Type">

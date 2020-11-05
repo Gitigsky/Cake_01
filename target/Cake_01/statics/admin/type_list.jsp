@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" contentType="text/html; charset=utf-8" isELIgnored="false"
 		 pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -39,17 +39,16 @@
 			<th width="10%">操作</th>
 		</tr>
 
-		<c:forEach items="${list }" var="t">
+		<c:forEach items="${types}" var="t">
 			<tr>
 				<td><p>${t.id }</p></td>
 				<td><p>${t.name }</p></td>
 				<td>
-					<a class="btn btn-primary" href="/admin/type_edit?id=${t.id }&name=${t.encodeName }">修改</a>
-					<a class="btn btn-danger" href="/admin/type_delete?id=${t.id }">删除</a>
+					<a class="btn btn-primary" href="/admin/type_edit?id=${t.id}&name=${t.encodeName }">修改</a>
+					<a class="btn btn-danger" href="/admin/type_delete?id=${t.id}">删除</a>
 				</td>
 			</tr>
 		</c:forEach>
-
 
 	</table>
 
