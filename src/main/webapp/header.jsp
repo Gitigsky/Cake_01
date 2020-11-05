@@ -37,7 +37,7 @@
                                             <li><a class="list" href="/goods_list">全部系列</a></li>
 
                                             <c:forEach items="${typeList}" var="t">
-                                                <li><a class="list" href="/goods_list?typeid=${t.id}">${t.name}</a></li>
+                                                <li><a class="list" href="/admin/goods_list?typeid=${t.id}">${t.name}</a></li>
                                             </c:forEach>
 
 
